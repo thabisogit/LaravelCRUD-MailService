@@ -1,0 +1,107 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="row">
+        <div class="col-lg-12 margin-tb">
+            <div class="pull-left">
+                <h2>Edit User</h2>
+            </div>
+            <div class="pull-right" style="text-align: right">
+                <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+            </div>
+        </div>
+    </div>
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('users.update',$user->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Name:</strong>
+                    <input type="text" name="name" value="{{ $user->name }}" class="form-control" placeholder="Name">
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Surname:</strong>
+                    <input type="text" name="surname" value="{{ $user->surname }}" class="form-control" placeholder="Surname">
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>SA ID:</strong>
+                    <input type="text" name="sa_id" value="{{ $user->sa_id }}" class="form-control" placeholder="SA ID">
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Mobile Number:</strong>
+                    <input type="text" name="mobile_number" value="{{ $user->mobile_number }}" class="form-control" placeholder="Mobile Number">
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Email:</strong>
+                    <input type="text" name="email" value="{{ $user->email }}" class="form-control" placeholder="Email">
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Date Of Birth:</strong>
+                    <input type="date" name="date_of_birth" value="{{ $user->date_of_birth }}" class="form-control" placeholder="Date Of Birth">
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Language:</strong>
+                    <select class="form-control" name="user_language_id">
+                        <option>Please select Language</option>
+                        @foreach ($items as $item)
+                            <option value="{{$item->id}}" {{$item->id == $user->user_language_id ? 'selected' : ''}} >{{$item->language }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Interests:</strong>
+                    <select class="form-control" name="user_interest_id[]" multiple>
+                        <option>Please select Interests</option>
+                        @foreach ($interest_items as $interest_item)
+                            <option value="{{$interest_item->id}}"  {{$interest_item->id == $user->user_interest_id ? 'selected' : ''}} >{{$interest_item->interest}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+
+    </form>
+@endsection
