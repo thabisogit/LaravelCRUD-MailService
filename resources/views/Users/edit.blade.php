@@ -53,7 +53,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>SA ID:</strong>
-                    <input type="text" name="sa_id" value="{{ $user->sa_id }}" class="form-control" placeholder="SA ID">
+                    <input type="text" name="sa_id" value="{{ $user->sa_id }}" class="form-control" placeholder="SA ID" maxlength="13">
                 </div>
             </div>
 
@@ -61,7 +61,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Mobile Number:</strong>
-                    <input type="text" name="mobile_number" value="{{ $user->mobile_number }}" class="form-control" placeholder="Mobile Number">
+                    <input type="text" name="mobile_number" value="{{ $user->mobile_number }}" class="form-control" maxlength="10" placeholder="Mobile Number">
                 </div>
             </div>
 
@@ -97,7 +97,7 @@
                 <div class="form-group">
                     <strong>Interests:</strong>
                     <select class="form-control" name="user_interest_id[]" multiple>
-                        <option>Please select Interests</option>
+                        <option disabled="disabled">Please select Interests</option>
                         @foreach ($interest_items as $interest_item)
                             <option value="{{$interest_item->id}}"  {{$interest_item->id == $user->user_interest_id ? 'selected' : ''}} >{{$interest_item->interest}}</option>
                         @endforeach
