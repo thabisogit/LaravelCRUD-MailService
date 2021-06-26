@@ -16,6 +16,7 @@ class UserInterestController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param $user_id
      * @return array
      */
     public function interests(Request $request)

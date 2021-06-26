@@ -49,12 +49,15 @@
         <form action="{{ route('users.destroy',$user->id) }}" method="POST">
             <div class="row">
                 <div class="col-sm-4">
-                    <a class="small" href="{{ route('users.edit',$user->id) }}"><i class="far fa-edit"></i></a>
+                    <a class="small" href="{{ route('users.show',$user->id) }}"><i title="Display User" class="fas fa-eye"></i></a>
+                </div>
+                <div class="col-sm-4">
+                    <a class="small" href="{{ route('users.edit',$user->id) }}"><i title="Edit User" class="far fa-edit"></i></a>
                 </div>
                 <div class="col-sm-4">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="small deleteLink"><i class="far fa-trash-alt"></i></button>
+                    <button type="submit" class="small deleteLink"><i title="Delete User" class="far fa-trash-alt"></i></button>
                 </div>
             </div>
         </form>
@@ -69,34 +72,36 @@
 
     {!! $users->links() !!}
 
+    <script type="application/javascript">
+        function loadInterests(user_id,user_name) {
+            $(function(){
+                $('#interestsList').empty();
+                $('#modalTitle').text(user_name);
+                $.post('user_interests/interests',{ _token: $('meta[name=csrf-token]').attr('content'), _method : 'POST', user_id : user_id }, function(response){
+
+                    if(response != '')
+                    {
+                        $.each( response, function( key, value ) {
+                            $('#interestsList').append('<li class="list-group-item">'+value+'</li>')
+                        });
+                    }else{
+                        $('#interestsList').append('<i class="far fa-frown">&nbsp;<i>User has no interests</i></i>')
+                    }
+
+                });
+            });
+            $('#interestsModal').modal('show');
+        }
+
+
+        $( document ).ready(function() {
+            $('#dismissModal').on('click', function () {
+                $('#interestsModal').modal('hide');
+            })
+        });
+    </script>
+
 @endsection
 
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-        <script>
-            function loadInterests(user_id,user_name) {
-                $(function(){
-                    $('#interestsList').empty();
-                    $('#modalTitle').text(user_name);
-                    $.post('user_interests/interests',{ _token: $('meta[name=csrf-token]').attr('content'), _method : 'POST', user_id : user_id }, function(response){
+{{--<script src="https://code.jquery.com/jquery-3.5.0.js"></script>--}}
 
-                        if(response != '')
-                        {
-                            $.each( response, function( key, value ) {
-                                $('#interestsList').append('<li class="list-group-item">'+value+'</li>')
-                            });
-                        }else{
-                            $('#interestsList').append('<i class="far fa-frown">&nbsp;<i>User has no interests</i></i>')
-                        }
-
-                    });
-                });
-                $('#interestsModal').modal('show');
-            }
-
-
-            $( document ).ready(function() {
-                $('#dismissModal').on('click', function () {
-                    $('#interestsModal').modal('hide');
-                })
-            });
-        </script>

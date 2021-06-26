@@ -82,7 +82,14 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show',compact('user'));
+
+        $interestsArray = [];
+        $interests = UserInterestLink::where('user_id',$user->id)->get();
+        foreach ($interests as $interest){
+            $interestName = UserInterest::where('id', $interest->getAttributes()['user_interest_id'])->pluck('interest');
+            $interestsArray[] = $interestName[0];
+        }
+        return view('users.show',compact('user','interestsArray'));
     }
 
     /**
@@ -130,7 +137,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-
+        UserInterestLink::where('user_id', $user->id)->delete();
         return redirect()->route('users.index')
             ->with('success','User deleted successfully');
     }

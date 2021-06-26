@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -30,17 +31,5 @@
             </div>
         </main>
     </div>
-
-{{--        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>--}}
-{{--        <script src="/ckeditor/ckeditor.js"></script>--}}
-{{--        <script>--}}
-{{--            $(document).ready(function () {--}}
-{{--                function loadInterests(user_id, user_name) {--}}
-{{--                    alert(user_name);--}}
-{{--                }--}}
-{{--            });--}}
-{{--        </script>--}}
-
-
 </body>
 </html>
