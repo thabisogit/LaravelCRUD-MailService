@@ -85,7 +85,7 @@
                 <div class="form-group">
                     <strong>Language:</strong>
                     <select class="form-control" name="user_language_id">
-                        <option>Please select Language</option>
+                        <option disabled="disabled">Please select Language</option>
                         @foreach ($items as $item)
                             <option value="{{$item->id}}" {{$item->id == $user->user_language_id ? 'selected' : ''}} >{{$item->language }}</option>
                         @endforeach

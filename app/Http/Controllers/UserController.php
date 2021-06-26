@@ -157,7 +157,7 @@ class UserController extends Controller
             'mobile_number' => 'required',
             'email' => 'required',
             'date_of_birth' => 'required',
-            'user_language_id' => 'required',
+            'user_language_id' => ['required'],
         ]);
     }
 }

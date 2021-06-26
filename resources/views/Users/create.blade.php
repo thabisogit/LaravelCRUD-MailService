@@ -38,41 +38,41 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
-                    <input type="text" name="name" class="form-control" placeholder="Name">
+                    <input type="text" name="name" class="form-control" placeholder="Name" value="{{ old('name') }}">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Surname:</strong>
-                    <input type="text" name="surname" class="form-control" placeholder="Surname">
+                    <input type="text" name="surname" class="form-control" placeholder="Surname" value="{{ old('surname') }}">
                 </div>
             </div>
 
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>SA ID:</strong>
-                    <input type="text" name="sa_id" class="form-control" placeholder="SA ID" maxlength="13">
+                    <input type="text" name="sa_id" class="form-control" placeholder="SA ID" maxlength="13" value="{{ old('sa_id') }}">
                 </div>
             </div>
 
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Mobile Number:</strong>
-                    <input type="text" name="mobile_number" class="form-control" placeholder="Mobile Number" maxlength="10">
+                    <input type="text" name="mobile_number" class="form-control" placeholder="Mobile Number" maxlength="10" value="{{ old('mobile_number') }}">
                 </div>
             </div>
 
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Email:</strong>
-                    <input type="text" name="email" class="form-control" placeholder="Email">
+                    <input type="text" name="email" class="form-control" placeholder="Email" value="{{ old('email') }}">
                 </div>
             </div>
 
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Date Of Birth:</strong>
-                    <input type="date" name="date_of_birth" class="form-control" placeholder="Date Of Birth">
+                    <input type="date" name="date_of_birth" class="form-control" placeholder="Date Of Birth" value="{{ old('date_of_birth') }}">
                 </div>
             </div>
 
@@ -80,7 +80,7 @@
                 <div class="form-group">
                     <strong>Language:</strong>
                     <select class="form-control" name="user_language_id">
-                        <option>Please select Language</option>
+                        <option disabled="disabled">Please select Language</option>
                         @foreach ($items as $item)
                             <option value="{{$item->id}}">{{$item->language}}</option>
                         @endforeach
