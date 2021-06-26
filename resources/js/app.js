@@ -31,4 +31,15 @@ const app = new Vue({
     el: '#app',
 });
 
+$( document ).ready(function() {
+    $('.wrap').hide();
+    $('.btn-primary').on('click', function () {
+        $('.wrap').show();
+    })
+
+    $('#dismissModal, .btn-close').on('click', function () {
+        $('#interestsModal').modal('hide');
+    })
+});
+
 

@@ -19,8 +19,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        //get logged in user and exclude them from list of users
         $loggedInUser = Auth::id();
-
         $users = User::latest()->whereNotIn('id',[$loggedInUser])->paginate(5);
 
         return view('users.index',compact('users'))
@@ -34,6 +34,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        //pull data from database to populate dropdown selects for language and interest and pass arrays to the view
         $items = UserLanguage::all('language', 'id');
         $interest_items = UserInterest::all('interest', 'id');
         return view('users.create',['items'=>$items,'interest_items'=>$interest_items]);
@@ -47,14 +48,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->user_interest_id);
         $this->validateInputs($request);
         $user = User::create(['name'=>$request->name, 'surname'=>$request->surname, 'sa_id'=>$request->sa_id, 'mobile_number'=>$request->mobile_number, 'email'=>$request->email, 'date_of_birth'=>$request->date_of_birth, 'user_language_id'=>$request->user_language_id, 'user_interest_id'=>$request->user_interest_id]);
 
-        foreach ($request->user_interest_id as $interest_id){
-            UserInterestLink::create(['user_id'=>$user->id, 'user_interest_id'=>$interest_id]);
+        //save list of user's interests if user_interest is not null
+        if($request->user_interest_id != null){
+            foreach ($request->user_interest_id as $interest_id){
+                UserInterestLink::create(['user_id'=>$user->id, 'user_interest_id'=>$interest_id]);
+            }
         }
-
 
         // email data
         $email_data = array(
@@ -69,7 +71,6 @@ class UserController extends Controller
                 ->from('no-reply@site.com', 'ProPay');
         });
 
-
         return redirect()->route('users.index')
             ->with('success','User created successfully.');
     }
@@ -82,7 +83,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-
+        //get list of user's interest and pass it to the view
         $interestsArray = [];
         $interests = UserInterestLink::where('user_id',$user->id)->get();
         foreach ($interests as $interest){
@@ -114,12 +115,15 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        //reset user's interests by deleting and recreating new users interests
         if($request->user_interest_id != null){
             UserInterestLink::where('user_id', $user->id)->delete();
             foreach ($request->user_interest_id as $interest_id){
                 UserInterestLink::create(['user_id'=>$user->id, 'user_interest_id'=>$interest_id]);
             }
         }
+
+        //validate inputs
         $this->validateInputs($request);
 
         $user->update($request->all());
@@ -137,7 +141,10 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+
+        //delete users interest when user is being deleted
         UserInterestLink::where('user_id', $user->id)->delete();
+
         return redirect()->route('users.index')
             ->with('success','User deleted successfully');
     }

@@ -49,11 +49,13 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Interests:</strong>
-{{--                <ul>--}}
+                @if($interestsArray != null)
                     @foreach ($interestsArray as $interest)
                     {{'*'.$interest}}
                     @endforeach
-{{--                </ul>--}}
+                @else
+                    <i class="far fa-frown"></i>&nbsp;<i>User has no interests</i>&nbsp;<i class="far fa-frown"></i>
+                @endif
             </div>
         </div>
     </div>

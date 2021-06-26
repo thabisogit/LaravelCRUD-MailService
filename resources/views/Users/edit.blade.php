@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="wrap" style="display: none">
+        <div class="loading">
+            <div class="bounceball"></div>
+            <div class="text">UPDATING USER</div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">

@@ -14,9 +14,8 @@ namespace App\Http\Controllers;
 class UserInterestController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Pull a list of the users interests.
      *
-     * @param $user_id
      * @return array
      */
     public function interests(Request $request)

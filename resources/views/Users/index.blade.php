@@ -12,6 +12,7 @@
             @endif
     </div>
     <br>
+    @if (!Auth::guest())
     <table class="table table-striped" id="dataTable" width="100%">
         <thead>
             <tr>
@@ -44,7 +45,7 @@
     <td>
         <a type="button" class="btn btn-primary btn-sm" onclick="loadInterests({{$user->id}},'{{$user->name}} `s Interests')">View Interests</a>
     </td>
-    @if (!Auth::guest())
+
     <td>
         <form action="{{ route('users.destroy',$user->id) }}" method="POST">
             <div class="row">
@@ -61,12 +62,15 @@
                 </div>
             </div>
         </form>
-        @endif
+
     </td>
 </tr>
     @endforeach
         </tbody>
     </table>
+        @else
+        <p style="text-align: center;font-weight: bold;" class="h1">USER MANAGEMENT WEB APP</p>
+    @endif
 
     @include('inc.modal')
 
@@ -93,15 +97,7 @@
             $('#interestsModal').modal('show');
         }
 
-
-        $( document ).ready(function() {
-            $('#dismissModal').on('click', function () {
-                $('#interestsModal').modal('hide');
-            })
-        });
     </script>
 
 @endsection
-
-{{--<script src="https://code.jquery.com/jquery-3.5.0.js"></script>--}}
 
