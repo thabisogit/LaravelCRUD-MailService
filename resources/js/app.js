@@ -30,12 +30,53 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
-
+const wrap = $('.wrap');
 $( document ).ready(function() {
-    $('.wrap').hide();
-    $('.btn-primary').on('click', function () {
-        $('.wrap').show();
-    })
+    wrap.hide();
+    let emptyInputs = false;
+
+    $('#createUser').on('click', function () {
+        emptyInputs = false;
+        $('#errors-div').hide();
+        $("#userForm").submit();
+    });
+
+
+        $("#userForm").submit(function(e){
+
+            $('#errors').empty();
+            wrap.show();
+
+            $('input[type="text"]').each(function() {
+                if ($(this).val() == "") {
+                    emptyInputs = true;
+                    $('#errors-div').show();
+                    $('#errors').append('<li>'+$(this).attr('id')+' field is required</li>');
+                    wrap.hide();
+                }
+            });
+
+            if($("#language").val() === ""){
+                emptyInputs = true;
+                $('#errors-div').show();
+                $('#errors').append('<li>Language field is required</li>');
+                wrap.hide();
+            }
+
+            if($('#interestsId').val() == 0){
+                emptyInputs = true;
+                $('#errors-div').show();
+                $('#errors').append('<li>Interest field is required</li>');
+                wrap.hide();
+            }
+
+            if (emptyInputs){
+                e.preventDefault();
+            }
+
+        });
+
+
 
     $('#dismissModal, .btn-close').on('click', function () {
         $('#interestsModal').modal('hide');
