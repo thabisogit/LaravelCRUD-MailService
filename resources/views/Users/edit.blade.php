@@ -1,23 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="wrap" style="display: none">
-        <div class="loading">
-            <div class="bounceball"></div>
-            <div class="text">UPDATING USER</div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Edit User</h2>
-            </div>
-            <div class="pull-right" style="text-align: right">
-                <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
-            </div>
-        </div>
-    </div>
+{{--    <div class="wrap" style="display: none">--}}
+{{--        <div class="loading">--}}
+{{--            <div class="bounceball"></div>--}}
+{{--            <div class="text">UPDATING USER</div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -33,56 +22,43 @@
     <form action="{{ route('users.update',$user->id) }}" method="POST">
         @csrf
         @method('PUT')
+        <div style="margin-left: 13px;">
+            <h2>Edit User</h2>
+        </div>
 
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
+            <div class="col-xs-12 col-sm-12 col-md-12 row">
+                <div class="form-group col-sm-6">
                     <strong>Name:</strong>
                     <input type="text" name="name" value="{{ $user->name }}" class="form-control" placeholder="Name">
                 </div>
-            </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
+                <div class="form-group col-sm-6">
                     <strong>Surname:</strong>
                     <input type="text" name="surname" value="{{ $user->surname }}" class="form-control" placeholder="Surname">
                 </div>
-            </div>
 
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
+                <div class="form-group col-sm-6">
                     <strong>SA ID:</strong>
                     <input type="text" name="sa_id" value="{{ $user->sa_id }}" class="form-control" placeholder="SA ID" maxlength="13">
                 </div>
-            </div>
 
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Mobile Number:</strong>
-                    <input type="text" name="mobile_number" value="{{ $user->mobile_number }}" class="form-control" maxlength="10" placeholder="Mobile Number">
-                </div>
-            </div>
-
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Email:</strong>
-                    <input type="text" name="email" value="{{ $user->email }}" class="form-control" placeholder="Email">
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
+                <div class="form-group col-sm-6">
                     <strong>Date Of Birth:</strong>
                     <input type="date" name="date_of_birth" value="{{ $user->date_of_birth }}" class="form-control" placeholder="Date Of Birth">
                 </div>
-            </div>
 
 
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
+                <div class="form-group col-sm-6">
+                    <strong>Mobile Number:</strong>
+                    <input type="text" name="mobile_number" value="{{ $user->mobile_number }}" class="form-control" maxlength="10" placeholder="Mobile Number">
+                </div>
+
+                <div class="form-group col-sm-6">
+                    <strong>Email:</strong>
+                    <input type="text" name="email" value="{{ $user->email }}" class="form-control" placeholder="Email">
+                </div>
+
+                <div class="form-group col-sm-6">
                     <strong>Language:</strong>
                     <select class="form-control" name="user_language_id">
                         <option disabled="disabled">Please select Language</option>
@@ -91,10 +67,8 @@
                         @endforeach
                     </select>
                 </div>
-            </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
+                <div class="form-group col-sm-6">
                     <strong>Interests:</strong>
                     <select class="form-control" name="user_interest_id[]" multiple>
                         <option disabled="disabled">Please select Interests</option>
@@ -103,12 +77,13 @@
                         @endforeach
                     </select>
                 </div>
-            </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+
+</div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
                 <button type="submit" class="btn btn-primary">Submit</button>
+                <a class="btn btn-secondary" href="{{ route('users.index') }}"> Back</a>
             </div>
-        </div>
 
     </form>
 @endsection

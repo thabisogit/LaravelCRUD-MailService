@@ -34,6 +34,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         //pull data from database to populate dropdown selects for language and interest and pass arrays to the view
         $items = UserLanguage::all('language', 'id');
         $interest_items = UserInterest::all('interest', 'id');
@@ -48,6 +51,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         $this->validateInputs($request);
         $user = User::create(['name'=>$request->name, 'surname'=>$request->surname, 'sa_id'=>$request->sa_id, 'mobile_number'=>$request->mobile_number, 'email'=>$request->email, 'date_of_birth'=>$request->date_of_birth, 'user_language_id'=>$request->user_language_id, 'user_interest_id'=>$request->user_interest_id]);
 
@@ -83,6 +89,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        if(!Auth::check()){
+            return redirect('/login');
+        }
+
         //get list of user's interest and pass it to the view
         $interestsArray = [];
         $interests = UserInterestLink::where('user_id',$user->id)->get();
@@ -101,6 +111,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if(!Auth::check()){
+            return redirect('/login');
+        }
+
         $items = UserLanguage::all('language', 'id');
         $interest_items = UserInterest::all('interest', 'id');
         return view('users.edit',compact('user','items','interest_items'));
@@ -115,6 +129,10 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        if(!Auth::check()){
+            return redirect('/login');
+        }
+
         //reset user's interests by deleting and recreating new users interests
         if($request->user_interest_id != null){
             UserInterestLink::where('user_id', $user->id)->delete();
@@ -140,6 +158,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if(!Auth::check()){
+            return redirect('/login');
+        }
+
         $user->delete();
 
         //delete users interest when user is being deleted
