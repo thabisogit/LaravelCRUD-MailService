@@ -14,7 +14,7 @@
     <form action="{{ route('users.store') }}" method="POST" id="userForm">
         @csrf
         <div style="margin-left: 13px;">
-            <h2>Add New User</h2>
+            <h2><u><strong>Add New User</strong></u></h2>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 row">
                 <div class="form-group col-sm-6">

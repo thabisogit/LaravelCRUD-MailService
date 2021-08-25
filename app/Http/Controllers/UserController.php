@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendMail;
 use App\User;
 use App\UserInterest;
 use App\UserInterestLink;
 use App\UserLanguage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
@@ -19,9 +21,13 @@ class UserController extends Controller
      */
     public function index()
     {
+        if(!Auth::check()){
+            return redirect('/login');
+        }
+
         //get logged in user and exclude them from list of users
         $loggedInUser = Auth::id();
-        $users = User::latest()->whereNotIn('id',[$loggedInUser])->paginate(5);
+        $users = User::latest()->whereNotIn('id',[$loggedInUser])->paginate(10);
 
         return view('users.index',compact('users'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
@@ -64,18 +70,8 @@ class UserController extends Controller
             }
         }
 
-        // email data
-        $email_data = array(
-            'name' => $request->name,
-            'email' => $request->email,
-        );
-
-        // send email with the template
-        Mail::send('inc.email_temp', $email_data, function ($message) use ($email_data) {
-            $message->to($email_data['email'], $email_data['name'])
-                ->subject('Welcome to ProPay')
-                ->from('no-reply@site.com', 'ProPay');
-        });
+        //trigger an event to send an email passing the email and user name to the event
+        Event::dispatch(new SendMail($request->email,$request->name.' '.$request->surname));
 
         return redirect()->route('users.index')
             ->with('success','User created successfully.');

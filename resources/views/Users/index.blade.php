@@ -12,7 +12,7 @@
             @endif
     </div>
     <br>
-    @if (!Auth::guest())
+    @if (Auth::check())
     <table class="table table-striped" id="dataTable" width="100%">
         <thead>
             <tr>
@@ -24,8 +24,8 @@
                 <th>Birth Date</th>
                 <th>Language</th>
                 <th>Interests</th>
-                @if (!Auth::guest())
-                    <th>Actions</th>
+                @if (Auth::check())
+                    <th style="text-align: center">Actions</th>
                 @endif
 
 
@@ -43,11 +43,10 @@
     <td>{{ $user->date_of_birth }}</td>
     <td>{{ App\Http\Controllers\UserLanguageController::getLanguage($user->user_language_id) }}</td>
     <td>
-        <a type="button" class="btn btn-primary btn-sm" onclick="loadInterests({{$user->id}},'{{$user->name}} `s Interests')">View Interests</a>
+        <a type="button" class="badge badge-pill badge-info" onclick="loadInterests({{$user->id}},'{{$user->name}} `s Interests')" style="color: white">View Interests</a>
     </td>
 
     <td>
-        <form action="{{ route('users.destroy',$user->id) }}" method="POST">
             <div class="row">
                 <div class="col-sm-4">
                     <a class="small" href="{{ route('users.show',$user->id) }}"><i title="Display User" class="fas fa-eye"></i></a>
@@ -56,12 +55,9 @@
                     <a class="small" href="{{ route('users.edit',$user->id) }}"><i title="Edit User" class="far fa-edit"></i></a>
                 </div>
                 <div class="col-sm-4">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="small deleteLink"><i title="Delete User" class="far fa-trash-alt"></i></button>
+                    <button type="submit" class="small deleteLink" content="{{$user->id}}"><i title="Delete User" class="far fa-trash-alt"></i></button>
                 </div>
             </div>
-        </form>
 
     </td>
 </tr>
@@ -72,13 +68,52 @@
         <p style="text-align: center;font-weight: bold;" class="h1">USER MANAGEMENT WEB APP</p>
     @endif
 
+    <div class="modal fade" id="confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this user?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="delete">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @include('inc.modal')
 
     {!! $users->links() !!}
 
     <script type="application/javascript">
+
+        $('.deleteLink').on('click', function() {
+            $('#delete').attr('content',$(this).attr('content'));
+                $('#confirmation').modal('show')
+                    .on('click', '#delete', function() {
+                        deleteUser($(this).attr('content'));
+                    });
+
+        });
+
+        function deleteUser(user_id) {
+            var url = '{{route("users.destroy",":id")}}';
+            var raw_url = url.replace(':id', user_id);
+
+            $.post(raw_url,{ _token: $('meta[name=csrf-token]').attr('content'), _method : 'DELETE', user_id : user_id }, function(response){
+                if(response !== '')
+                {
+                    location.reload();
+                }
+            });
+        }
+
         function loadInterests(user_id,user_name) {
-            $(function(){
+
                 $('#interestsList').empty();
                 $('#modalTitle').text(user_name);
                 $.post('user_interests/interests',{ _token: $('meta[name=csrf-token]').attr('content'), _method : 'POST', user_id : user_id }, function(response){
@@ -93,7 +128,7 @@
                     }
 
                 });
-            });
+
             $('#interestsModal').modal('show');
         }
 

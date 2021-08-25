@@ -42,6 +42,7 @@ $( document ).ready(function() {
     });
 
 
+
         $("#userForm").submit(function(e){
 
             $('#errors').empty();

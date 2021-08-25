@@ -23,7 +23,7 @@
         @csrf
         @method('PUT')
         <div style="margin-left: 13px;">
-            <h2>Edit User</h2>
+            <h2><u><strong>Edit User</strong></u></h2>
         </div>
 
             <div class="col-xs-12 col-sm-12 col-md-12 row">
@@ -81,7 +81,7 @@
 
 </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Update User</button>
                 <a class="btn btn-secondary" href="{{ route('users.index') }}"> Back</a>
             </div>
 
