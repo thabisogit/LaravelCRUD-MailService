@@ -61,7 +61,14 @@ class UserController extends Controller
             return redirect('/login');
         }
         $this->validateInputs($request);
-        $user = User::create(['name'=>$request->name, 'surname'=>$request->surname, 'sa_id'=>$request->sa_id, 'mobile_number'=>$request->mobile_number, 'email'=>$request->email, 'date_of_birth'=>$request->date_of_birth, 'user_language_id'=>$request->user_language_id, 'user_interest_id'=>$request->user_interest_id]);
+        $user = User::create(['name'=>$request->name,
+                              'surname'=>$request->surname,
+                              'sa_id'=>$request->sa_id,
+                              'mobile_number'=>$request->mobile_number,
+                              'email'=>$request->email,
+                              'date_of_birth'=>$request->date_of_birth,
+                              'user_language_id'=>$request->user_language_id,
+                              'user_interest_id'=>$request->user_interest_id]);
 
         //save list of user's interests if user_interest is not null
         if($request->user_interest_id != null){
@@ -93,9 +100,10 @@ class UserController extends Controller
         $interestsArray = [];
         $interests = UserInterestLink::where('user_id',$user->id)->get();
         foreach ($interests as $interest){
-            $interestName = UserInterest::where('id', $interest->getAttributes()['user_interest_id'])->pluck('interest');
-            $interestsArray[] = $interestName[0];
+            $interestName = UserInterest::where('id', $interest->getAttributes()['user_interest_id'])->pluck('interest')->first();
+            $interestsArray[] = $interestName;
         }
+
         return view('users.show',compact('user','interestsArray'));
     }
 
@@ -113,7 +121,8 @@ class UserController extends Controller
 
         $items = UserLanguage::all('language', 'id');
         $interest_items = UserInterest::all('interest', 'id');
-        return view('users.edit',compact('user','items','interest_items'));
+        $user_interests = UserInterestLink::where('user_id', $user->id)->pluck('user_interest_id')->toArray();
+        return view('users.edit',compact('user','items','interest_items','user_interests'));
     }
 
     /**

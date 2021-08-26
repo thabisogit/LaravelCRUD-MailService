@@ -49832,13 +49832,22 @@ $(document).ready(function () {
     $("#userForm").submit();
   });
   $("#userForm").submit(function (e) {
+    $('.loading').show();
     $('#errors').empty();
     wrap.show();
     $('input[type="text"]').each(function () {
       if ($(this).val() == "") {
         emptyInputs = true;
         $('#errors-div').show();
-        $('#errors').append('<li>' + $(this).attr('id') + ' field is required</li>');
+        $('#errors').append('<li>' + $(this).attr('placeholder') + ' field is required</li>');
+        wrap.hide();
+      }
+    });
+    $('input[type="date"]').each(function () {
+      if ($(this).val() == "") {
+        emptyInputs = true;
+        $('#errors-div').show();
+        $('#errors').append('<li>' + $(this).attr('placeholder') + ' field is required</li>');
         wrap.hide();
       }
     });
@@ -49858,6 +49867,7 @@ $(document).ready(function () {
     }
 
     if (emptyInputs) {
+      $('.loading').hide();
       e.preventDefault();
     }
   });

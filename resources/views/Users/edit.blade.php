@@ -73,7 +73,7 @@
                     <select class="form-control" name="user_interest_id[]" multiple>
                         <option disabled="disabled">Please select Interests</option>
                         @foreach ($interest_items as $interest_item)
-                            <option value="{{$interest_item->id}}"  {{$interest_item->id == $user->user_interest_id ? 'selected' : ''}} >{{$interest_item->interest}}</option>
+                            <option value="{{$interest_item->id}}"  {{(in_array($interest_item->id, $user_interests) ? 'selected' : '')}} >{{$interest_item->interest}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -86,4 +86,6 @@
             </div>
 
     </form>
+
+    <hr>
 @endsection

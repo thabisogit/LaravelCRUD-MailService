@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-{{--    <div class="loading" style="display: none">Loading&#8230;</div>--}}
+    <div class="loading" style="display: none">Loading&#8230;</div>
 
 
 
@@ -49,8 +49,6 @@
                     <strong>Email:</strong>
                     <input type="text" name="email" id="email" class="form-control" placeholder="Email" value="{{ old('email') }}">
                 </div>
-
-
 
 
                 <div class="form-group col-sm-6">

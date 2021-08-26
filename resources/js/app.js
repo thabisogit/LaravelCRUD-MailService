@@ -36,15 +36,14 @@ $( document ).ready(function() {
     let emptyInputs = false;
 
     $('#createUser').on('click', function () {
+
         emptyInputs = false;
         $('#errors-div').hide();
         $("#userForm").submit();
     });
 
-
-
         $("#userForm").submit(function(e){
-
+            $('.loading').show();
             $('#errors').empty();
             wrap.show();
 
@@ -52,8 +51,19 @@ $( document ).ready(function() {
                 if ($(this).val() == "") {
                     emptyInputs = true;
                     $('#errors-div').show();
-                    $('#errors').append('<li>'+$(this).attr('id')+' field is required</li>');
+                    $('#errors').append('<li>'+$(this).attr('placeholder')+' field is required</li>');
                     wrap.hide();
+
+                }
+            });
+
+            $('input[type="date"]').each(function() {
+                if ($(this).val() == "") {
+                    emptyInputs = true;
+                    $('#errors-div').show();
+                    $('#errors').append('<li>'+$(this).attr('placeholder')+' field is required</li>');
+                    wrap.hide();
+
                 }
             });
 
@@ -72,12 +82,11 @@ $( document ).ready(function() {
             }
 
             if (emptyInputs){
+                $('.loading').hide();
                 e.preventDefault();
             }
 
         });
-
-
 
     $('#dismissModal, .btn-close').on('click', function () {
         $('#interestsModal').modal('hide');
